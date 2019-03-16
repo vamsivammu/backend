@@ -1,7 +1,7 @@
 var Web3 = require("web3");
 var express = require("express");
 var router = express.Router();
-var web3 = new Web3(new Web3.providers.HttpProvider("https://35.244.59.3:30303"));
+var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:30303"));
 var solc  = require("solc");
 var fs = require("fs");
 var code = fs.readFileSync("payment.sol").toString();
@@ -21,15 +21,15 @@ router.post("/stos",function(req,res){
         // var s2am = req.body.s2am;
         // var am = req.body.am;
         
-        vc.new({data: byteCode, from: '0x6a127ae4fa5f171278a85de3f66763011b633cca', gas: 4700000},(er,newcontr)=>{
+        vc.new({data: byteCode, from: '0xe4e294e09c228d59088c1e2ea1aba34cd6e6a550', gas: 4700000},(er,newcontr)=>{
                 // console.log(newcontr)
                 if(!er){
                         if(!newcontr.address){
                                 console.log(newcontr.transactionHash)
                         }else{
-                                newcontr.setamount(s1am,{from:'0x6a127ae4fa5f171278a85de3f66763011b633cca',gas:4700000},(err,res)=>{
+                                newcontr.setamount(s1am,{from:'0xe4e294e09c228d59088c1e2ea1aba34cd6e6a550',gas:4700000},(err,res)=>{
                                 // console.log(err,res);
-                                newcontr.deductamount({from:'0x6a127ae4fa5f171278a85de3f66763011b633cca',gas:4700000},(e,res1)=>{
+                                newcontr.deductamount({from:'0xe4e294e09c228d59088c1e2ea1aba34cd6e6a550',gas:4700000},(e,res1)=>{
                                 console.log("Hii"+res1.toString())              
                                 })
                                   
@@ -74,5 +74,11 @@ router.post("/stos",function(req,res){
         // console.log(rem.s)
         
         // res.json({"rem":s1am})
+})
+
+router.post("/testing",function(req,res){
+        let p = req.body.s1am;
+        let a = p-10;
+        res.json({"msg":a})
 })
 module.exports = router;
